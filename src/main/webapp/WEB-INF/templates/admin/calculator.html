@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 ">
+				<div class="left">
+					<form action="#" th:action="@{/admin/creditcalculator}"
+						th:object="${credit}" method="post" class="form-horizontal"
+						role="form">
+
+						<div></div>
+						<h5>Credit Name</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+								<input type="text" th:field="*{mortgageName}"
+									placeholder="mortgageName" class="form-control" />
+							</div>
+						</div>
+						<h5>Credit Margin</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+
+								<input type="text" th:field="*{creditMargin}"
+									placeholder="Annual Interest" class="form-control" />
+							</div>
+						</div>
+
+						<h5>WIBOR</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+
+								<input type="text" th:field="*{wibor}" placeholder="WIBOR"
+									class="form-control" />
+							</div>
+						</div>
+
+						<h5>Commision Fee</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+
+								<input type="text" th:field="*{commisionFee}"
+									placeholder="Commision Fee" class="form-control" />
+							</div>
+						</div>
+
+						<h5>mortgage debt</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+
+								<input type="text" th:field="*{mortgageDebt}"
+									placeholder="mortgage deb" class="form-control" />
+							</div>
+						</div>
+
+						<h5>mortgage Term</h5>
+						<div class="form-group">
+							<div class="col-sm-9">
+
+								<input type="text" th:field="*{mortgageTerm}"
+									placeholder="mortgage Term" class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-9">
+								<button type="submit" class="btn btn-primary btn-block">Register
+									Credit</button>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<table class="table table-hover">
+			<tr>
+				<th>ID</th>
+				<th>NAME</th>
+				<th>CREDIT MARGIN</th>
+				<th>WIBOR</th>
+				<th>ANNUAL DEBT</th>
+				<th>COMMISION FEE</th>
+				<th>ANNUAL TERM</th>
+				<th></th>
+			</tr>
+
+			<tr th:each="credit : ${credits}">
+				<td th:text="${credit.id}"></td>
+				<td th:text="${credit.mortgageName}"></td>
+				<td th:text="${credit.creditMargin}"></td>
+				<td th:text="${credit.wibor}"></td>
+				<td th:text="${credit.commisionFee}"></td>
+				<td th:text="${credit.mortgageDebt}"></td>
+				<td th:text="${credit.mortgageTerm}"></td>
+				
+				<td><a
+					th:href="'/admin/creditcalculator/' + ${credit.mortgageName}">Wykaz Rat</a></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

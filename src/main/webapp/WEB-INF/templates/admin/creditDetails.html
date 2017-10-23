@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div>
+		<table class="table table-condensed">
+			<tr>
+				<th>ID</th>
+				<th>NAME</th>
+				<th>CREDIT MARGIN</th>
+				<th>WIBOR</th>
+				<th>ANNUAL DEBT</th>
+				<th>COMMISION FEE</th>
+				<th>ANNUAL TERM</th>
+				<th></th>
+			</tr>
+
+			<tr th:each="credit : ${credits}">
+				<td th:text="${credit.id}"></td>
+				<td th:text="${credit.mortgageName}"></td>
+				<td th:text="${credit.creditMargin}"></td>
+				<td th:text="${credit.wibor}"></td>
+				<td th:text="${credit.commisionFee}"></td>
+				<td th:text="${credit.mortgageDebt}"></td>
+				<td th:text="${credit.mortgageTerm}"></td>
+				<td th:text="${constantInstalment}"></td>
+				<td><a
+					th:href="'/admin/calculateInstalment/' + ${credit.mortgageName}">Wykaz Rat</a></td>
+			</tr>
+		</table>
+	</div>
+
+
+</body>
+</html>
