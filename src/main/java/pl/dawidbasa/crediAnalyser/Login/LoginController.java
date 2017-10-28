@@ -24,7 +24,6 @@ public class LoginController {
 		return "login";
 	}
 	
-	
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public String  registration(Model model){
 		User user = new User();
@@ -57,7 +56,6 @@ public class LoginController {
 		User user = userService.findUserByEmail(auth.getName());
 		model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 		model.addAttribute("adminMessage","Content Available Only for Users with Admin Role");
-		
 		return "admin/home";
 	}
 	
