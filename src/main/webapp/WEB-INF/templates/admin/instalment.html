@@ -15,40 +15,43 @@
 </head>
 <body>
 	<div>
+		<H4>Decrasing Instalments</H4>
 		<table class="table table-hover">
 			<tr>
-				<th>Total Cost</th>
-				<th>Average Instalment</th>
-				<th>Highest Instalment</th>
-				<th>Lowest Instalment</th>
+				<th class="col-md-2">Total Cost</th>
+				<th class="col-md-2">Average Instalment</th>
+				<th class="col-md-2">Lowest Instalment</th>
+				<th class="col-md-2">Highest Instalment</th>
 			</tr>
 			<tr>
-				<td class="col-md-" th:text="${decrasingInstalmentTotalCost}"></td>
+				<td class="col-md-2" th:text="${decrasingInstalmentTotalCost}"></td>
 				<td class="col-md-2" th:text="${decrasingInstalmentAverage}"></td>
 				<td class="col-md-2" th:text="${decrasingInstalmentMin}"></td>
 				<td class="col-md-2" th:text="${decrasingInstalmentMax}"></td>
 				<th><button type="button" class="btn btn-info btn-md"
-						data-toggle="modal" data-target="#myModal">list of decrasing installments</button></th>
+						data-toggle="modal" data-target="#myModal">list of
+						decrasing installments</button></th>
 			</tr>
 		</table>
 	</div>
+	<H4>Constant Instalments</H4>
 	<div>
 		<table class="table table-hover">
 			<tr>
-				<td>Total Cost</td>
-				<td>Instalment</td>
+				<th class="text-left col-md-2">Total Cost</th>
+				<th class="text-left col-md-10">Instalment</th>
 			</tr>
 			<tr>
-				<td th:text="${constantInstalmentTotalCost}"></td>
-				<td th:text="${constantInstalment}"></td>
+				<td class="text-left col-md-2"
+					th:text="${constantInstalmentTotalCost}"></td>
+				<td class="text-left col-md-10" th:text="${constantInstalment}"></td>
 			</tr>
-			
+
 		</table>
 	</div>
 
-	<div>
-		<a th:href="${'/admin/creditcalculator'}">back</a>
-
+	<div class="text-center">
+		<a th:href="${'/admin/creditcalculator'}">Back to mortgage list</a>
 	</div>
 
 	<div id="myModal" class="modal fade" role="dialog">
@@ -58,11 +61,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Modal Header</h4>
+					<h4 class="modal-title">Instalments List</h4>
 				</div>
 				<div class="modal-body">
 					<ol>
-						<li th:each="instalment : ${countAllDecreasingInstalment}" th:text="${instalment}"></li>
+						<li th:each="instalment : ${countAllDecreasingInstalment}"
+							th:text="${instalment}"></li>
 					</ol>
 				</div>
 				<div class="modal-footer">
