@@ -32,14 +32,14 @@ public class Credit {
 	private double wibor;
 
 	@Column(name = "commision_fee")
-	private double commisionFee;
+	private int commisionFee;
 
 	public Credit() {
 		super();
 	}
 
 	public Credit(String mortgageName, int mortgageDebt, int mortgageTerm, double creditMargin, double wibor,
-			double commisionFee) {
+			int commisionFee) {
 		super();
 		this.mortgageName = mortgageName;
 		this.mortgageDebt = mortgageDebt;
@@ -97,11 +97,11 @@ public class Credit {
 		this.wibor = wibor;
 	}
 
-	public double getCommisionFee() {
+	public int getCommisionFee() {
 		return commisionFee;
 	}
 
-	public void setCommisionFee(double commisionFee) {
+	public void setCommisionFee(int commisionFee) {
 		this.commisionFee = commisionFee;
 	}
 
