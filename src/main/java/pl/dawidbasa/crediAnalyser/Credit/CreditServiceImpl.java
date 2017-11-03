@@ -1,5 +1,7 @@
 package pl.dawidbasa.crediAnalyser.Credit;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -32,30 +34,90 @@ public class CreditServiceImpl implements CreditService {
 		return credits;
 	}
 
-	public List<Double> calculateAllDecreasingInstalments(Credit credit) {
+	public List<BigDecimal> calculateAllDecreasingInstalments(Credit credit) {
+		
+		// Mortgage term in months =  mortgage term * 12 
 		final int mortgageTermMonths = credit.getMortgageTerm() * 12;
-		final double monthlyIntrest = ((credit.getWibor() + credit.getCreditMargin()) / 100) / 12;
-		final double capitalElement = (credit.getMortgageDebt() + credit.getCommisionFee()) / (mortgageTermMonths);
-
-		List<Double> installmentsList = new ArrayList<>();
-
+		
+		// Monthly intrest rate = (WIBOR + Credit margin) / 1200   
+		// (12)*(100) 12 - months, 100 - conversion to percentages.  
+		final BigDecimal monthlyIntrest = BigDecimal.valueOf(credit.getWibor())
+				.add(BigDecimal.valueOf(credit.getCreditMargin()))
+				.divide(BigDecimal.valueOf(1200),10,RoundingMode.HALF_UP);
+		
+		// Mortgage Capital = Mortgage debt + Comission fee
+		final BigDecimal capitalElement = BigDecimal.valueOf(credit.getMortgageDebt())
+				.add(BigDecimal.valueOf(credit.getCommisionFee()));
+		
+		// Create Variable and set to 0 , this variable store currently paid capital.
+		BigDecimal repaidedCapitalElement = new BigDecimal(0);
+		
+		// Create list of installments.
+		List<BigDecimal> installmentsList = new ArrayList<>();
+		
+		// Calculate all instalments 
 		for (int i = 0; i < mortgageTermMonths;) {
-			double interestElement = (credit.getMortgageDebt() - (capitalElement * i)) * (monthlyIntrest);
-			double installment = capitalElement + interestElement;
+			
+			// Intrest element = (Capital element - Repaided Capital Element) * Monthly intrest.
+			// Precision of 4 decimal places, round up.
+			BigDecimal interestElement = capitalElement
+					.subtract(repaidedCapitalElement)
+					.multiply(monthlyIntrest).setScale(4, RoundingMode.HALF_UP);
+			
+			// Calculate single instalment 
+			// installment = (Capital element / Number of instalments) + intrest element
+			BigDecimal installment = capitalElement
+					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_UP)
+					.add(interestElement);
+			
+			// Currently paid capital in every iteration add vale to pocket.
+			repaidedCapitalElement = capitalElement
+					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_UP)
+					.add(repaidedCapitalElement);
+			
+			// Add installment to List
 			installmentsList.add(installment);
 			i++;
 		}
 		return installmentsList;
 	}
+	
+	// Calculate Min, Max, Average and sum of all installments stored in BigDecimal value.
+	// String Represents name of the atribute passed to Model in controller layer then to the view.
+	public Map<String, BigDecimal> calculateDecrasingInstalmentDetails(Credit credit) {
 
-	public Map<String, Double> calculateDecrasingInstalmentDetails(Credit credit) {
-
-		List<Double> lista = calculateAllDecreasingInstalments(credit);
-		Map<String, Double> map = new HashMap<>();
-		map.put("decrasingInstalmentTotalCost", lista.stream().mapToDouble(Double::valueOf).sum());
-		map.put("decrasingInstalmentAverage", lista.stream().mapToDouble(Double::valueOf).average().getAsDouble());
-		map.put("decrasingInstalmentMin", lista.stream().mapToDouble(Double::valueOf).min().getAsDouble());
-		map.put("decrasingInstalmentMax", lista.stream().mapToDouble(Double::valueOf).max().getAsDouble());
+		// Get all installments
+		List<BigDecimal> lista = calculateAllDecreasingInstalments(credit);
+		
+		Map<String, BigDecimal> map = new HashMap<>();
+		
+		// Calculate Sum of all installments
+		map.put("decrasingInstalmentTotalCost", lista.stream()
+				.reduce(BigDecimal.ZERO, BigDecimal::add)
+				.setScale(2, RoundingMode.HALF_UP));
+		
+		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
+		// Calculate average from double method.
+		map.put("decrasingInstalmentAverage", BigDecimal.valueOf(lista.stream()
+				.mapToDouble(BigDecimal::doubleValue)
+				.average().getAsDouble())
+				.setScale(2, RoundingMode.HALF_UP));
+		
+		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
+		// Calculate minimal instalment from double method.
+		map.put("decrasingInstalmentMin",BigDecimal.valueOf(lista.stream()
+				.mapToDouble(BigDecimal::doubleValue)
+				.min()
+				.getAsDouble())
+				.setScale(2, RoundingMode.HALF_UP));
+		
+		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
+		// Calculate maximal instalment from double method.
+		map.put("decrasingInstalmentMax",BigDecimal.valueOf(lista.stream()
+				.mapToDouble(BigDecimal::doubleValue)
+				.max().getAsDouble())
+				.setScale(2, RoundingMode.HALF_UP));
+		
 		return map;
 
 	}
@@ -73,8 +135,8 @@ public class CreditServiceImpl implements CreditService {
 
 		map.put("constantInstalment", instalment);
 		map.put("constantInstalmentTotalCost", instalment * mortgageTermMonths);
-
 		return map;
 	}
+
 
 }
