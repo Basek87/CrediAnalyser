@@ -16,19 +16,22 @@ public class CreditServiceImpl implements CreditService {
 
 	@Autowired
 	CreditRepository creditRepository;
-
+	
+	// Save credit to repository
 	public void saveCredit(Credit credit) {
 		creditRepository.save(credit);
 	}
 
+	// Get list of all credits from database
 	public List<Credit> findAll() {
 		return creditRepository.findAll();
 	}
-
+	// Get single credit by name
 	public Credit findByMortgageName(String mortgageName) {
 		return creditRepository.findByMortgageName(mortgageName);
 	}
-
+	
+	// Sort all credits by credit margin.
 	public List<Credit> sortCreditsByCreditMargin(List<Credit> credits) {
 		credits.sort(Comparator.comparingDouble(Credit::getCreditMargin));
 		return credits;
@@ -55,7 +58,7 @@ public class CreditServiceImpl implements CreditService {
 		// Create list of installments.
 		List<BigDecimal> installmentsList = new ArrayList<>();
 		
-		// Calculate all instalments 
+		// Calculate all instalments
 		for (int i = 0; i < mortgageTermMonths;) {
 			
 			// Intrest element = (Capital element - Repaided Capital Element) * Monthly intrest.
@@ -83,7 +86,8 @@ public class CreditServiceImpl implements CreditService {
 	}
 	
 	// Calculate Min, Max, Average and sum of all installments stored in BigDecimal value.
-	// String Represents name of the atribute passed to Model in controller layer then to the view.
+	// Conversion to double , lose some preciosion but here is not needed, only for preview. 
+	// String in the map represents name of the atribute passed to Model in controller layer then to the view.
 	public Map<String, BigDecimal> calculateDecrasingInstalmentDetails(Credit credit) {
 
 		// Get all installments
@@ -96,14 +100,13 @@ public class CreditServiceImpl implements CreditService {
 				.reduce(BigDecimal.ZERO, BigDecimal::add)
 				.setScale(2, RoundingMode.HALF_UP));
 		
-		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
+		
 		// Calculate average from double method.
 		map.put("decrasingInstalmentAverage", BigDecimal.valueOf(lista.stream()
 				.mapToDouble(BigDecimal::doubleValue)
 				.average().getAsDouble())
 				.setScale(2, RoundingMode.HALF_UP));
 		
-		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
 		// Calculate minimal instalment from double method.
 		map.put("decrasingInstalmentMin",BigDecimal.valueOf(lista.stream()
 				.mapToDouble(BigDecimal::doubleValue)
@@ -111,7 +114,6 @@ public class CreditServiceImpl implements CreditService {
 				.getAsDouble())
 				.setScale(2, RoundingMode.HALF_UP));
 		
-		// Conversion to double , lose some preciosion but here is not needed, only for preview. 
 		// Calculate maximal instalment from double method.
 		map.put("decrasingInstalmentMax",BigDecimal.valueOf(lista.stream()
 				.mapToDouble(BigDecimal::doubleValue)
@@ -119,24 +121,44 @@ public class CreditServiceImpl implements CreditService {
 				.setScale(2, RoundingMode.HALF_UP));
 		
 		return map;
-
 	}
+	
+	// Calculate instalment and total cost of mortgage.
+	// String in the map represents name of the atribute passed to Model in controller layer then to the view.
+	public Map<String, BigDecimal> calculateConstantInstalmentDetails(Credit credit) {
 
-	public Map<String, Double> calculateConstantInstalmentDetails(Credit credit) {
-
-		Map<String, Double> map = new HashMap<>();
-
+		Map<String, BigDecimal> map = new HashMap<>();
+		// Mortgage term in months =  mortgage term * 12 
 		final int mortgageTermMonths = credit.getMortgageTerm() * 12;
-		final double annualInterest = credit.getWibor() + credit.getCreditMargin();
-		final double monthlyIntrest = (annualInterest / 12) / 100;
-		final double q = 1 + monthlyIntrest;
-		final double qn = Math.pow(q, mortgageTermMonths);
-		final double instalment = (credit.getMortgageDebt() + credit.getCommisionFee()) * qn * ((q - 1) / (qn - 1));
-
-		map.put("constantInstalment", instalment);
-		map.put("constantInstalmentTotalCost", instalment * mortgageTermMonths);
+		
+		// Monthly intrest rate = (WIBOR + Credit margin) / 1200   
+		// (12)*(100) 12 - months, 100 - conversion to percentages.  
+		final BigDecimal monthlyIntrest = (BigDecimal.valueOf(credit.getWibor())
+				.add(BigDecimal.valueOf(credit.getCreditMargin()))
+				.divide(BigDecimal.valueOf(1200),10,RoundingMode.HALF_UP)); 
+		
+		// q = mothly intrest + 1
+		final BigDecimal q = monthlyIntrest.add(BigDecimal.valueOf(1));
+		
+		// qn = q to the power mortgage term in months.
+		final BigDecimal qn = q.pow(mortgageTermMonths).setScale(10,RoundingMode.HALF_EVEN);
+		
+		// General formula of constant instalments
+		//                                         (q - 1)
+		// instalment = qn * total Credit Value * --------- 
+		//                                         (qn - 1)
+		final BigDecimal instalment = qn
+				.multiply(BigDecimal.valueOf(credit.getMortgageDebt())
+						.add(BigDecimal.valueOf(credit.getCommisionFee())))
+				.multiply(q.subtract(BigDecimal.ONE)
+						.divide(qn.subtract(BigDecimal.ONE),10,RoundingMode.HALF_EVEN)).setScale(10, RoundingMode.HALF_EVEN);
+		
+		// Calculate total cost of credit. 
+		// Instalment * number of instalments
+		final BigDecimal totalCost = instalment.multiply(BigDecimal.valueOf(mortgageTermMonths));
+		
+		map.put("constantInstalment", instalment.setScale(2,RoundingMode.HALF_EVEN));
+		map.put("constantInstalmentTotalCost", totalCost.setScale(2, RoundingMode.HALF_EVEN));
 		return map;
 	}
-
-
 }
