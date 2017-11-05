@@ -15,13 +15,13 @@ Lista zadań na przyszłość:
 #########################################################################################
 Lista zadań 6.11.2017 - 12.11.2017
 -----------------------------------------------------------------------------------------
-1. Poprawić validacje dodawania użytkowników , kredytów.								                @
-2. Dodać przyciski z odwolaniami w panelu użytkownika home. 							              @
-3. Poprawic ustawienia zabezpieczeń.												                          	@
-4. Komenatrze w klasach controllerow , ustawien, serwisow.								              @
-5. Implementacja pierwszysch testów sprawdzających poprawność obliczeń kredytów.	    	@
-6. Dodać pliki CSS do projektu , zmienić stare odwolania.							                	@
-7. Refactor kodu - poprawa wyglądu , działania											                    @
+@ 1. Poprawić validacje dodawania użytkowników , kredytów.								     
+@ 2. Dodać przyciski z odwolaniami w panelu użytkownika home. 	
+@ 3. Poprawic ustawienia zabezpieczeń.		
+@ 4. Komenatrze w klasach controllerow , ustawien, serwisow.								            
+@ 5. Implementacja pierwszysch testów sprawdzających poprawność obliczeń kredytów.	    	
+@ 6. Dodać pliki CSS do projektu , zmienić stare odwolania.							                	
+@ 7. Refactor kodu - poprawa wyglądu , działania											                   
 -----------------------------------------------------------------------------------------
 #########################################################################################
 
