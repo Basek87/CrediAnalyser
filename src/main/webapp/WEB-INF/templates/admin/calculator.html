@@ -26,6 +26,9 @@
 						<h5>Credit Name</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
+								<label th:if="${#fields.hasErrors('mortgageName')}"
+									th:errors="*{mortgageName}" class="validation-message"></label>
+
 								<input type="text" th:field="*{mortgageName}"
 									placeholder="mortgageName" class="form-control" />
 							</div>
@@ -33,6 +36,9 @@
 						<h5>Credit Margin</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
+
+								<label th:if="${#fields.hasErrors('creditMargin')}"
+									th:errors="*{creditMargin}" class="validation-message"></label>
 
 								<input type="text" th:field="*{creditMargin}"
 									placeholder="Annual Interest" class="form-control" />
@@ -42,8 +48,9 @@
 						<h5>WIBOR</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
-
-								<input type="text" th:field="*{wibor}" placeholder="WIBOR"
+								<label th:if="${#fields.hasErrors('wibor')}"
+									th:errors="*{wibor}" class="validation-message"></label> <input
+									type="text" th:field="*{wibor}" placeholder="WIBOR"
 									class="form-control" />
 							</div>
 						</div>
@@ -51,7 +58,8 @@
 						<h5>Commision Fee</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
-
+								<label th:if="${#fields.hasErrors('commisionFee')}"
+									th:errors="*{commisionFee}" class="validation-message"></label>
 								<input type="text" th:field="*{commisionFee}"
 									placeholder="Commision Fee" class="form-control" />
 							</div>
@@ -60,16 +68,18 @@
 						<h5>mortgage debt</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
-
+								<label th:if="${#fields.hasErrors('mortgageDebt')}"
+									th:errors="*{mortgageDebt}" class="validation-message"></label>
 								<input type="text" th:field="*{mortgageDebt}"
 									placeholder="mortgage deb" class="form-control" />
 							</div>
 						</div>
 
-						<h5>mortgage Term</h5>
+						<h5>mortgage Term(Years)</h5>
 						<div class="form-group">
 							<div class="col-sm-9">
-
+								<label th:if="${#fields.hasErrors('mortgageTerm')}"
+									th:errors="*{mortgageTerm}" class="validation-message"></label>
 								<input type="text" th:field="*{mortgageTerm}"
 									placeholder="mortgage Term" class="form-control" />
 							</div>
@@ -81,7 +91,7 @@
 									Credit</button>
 							</div>
 						</div>
-
+						<span th:utext="${successMessage}"></span>
 					</form>
 				</div>
 			</div>
@@ -109,7 +119,7 @@
 				<td th:text="${credit.commisionFee}"></td>
 				<td th:text="${credit.mortgageDebt}"></td>
 				<td th:text="${credit.mortgageTerm}"></td>
-				
+
 				<td><a
 					th:href="'/admin/creditcalculator/' + ${credit.mortgageName}">Details</a></td>
 			</tr>
