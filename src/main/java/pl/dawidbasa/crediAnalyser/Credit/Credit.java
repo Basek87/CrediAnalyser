@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,26 +21,31 @@ public class Credit {
 	private String mortgageName;
 
 	@Column(name = "mortgage_debt")
-	private int mortgageDebt;
+	@NotNull(message = "Specify the loan amount ,Can not be Empty")
+	private Integer mortgageDebt;
 
 	@Column(name = "mortgage_term")
-	private int mortgageTerm;
+	@NotNull(message = "Specify the loan term ,Can not be Empty")
+	private Integer mortgageTerm;
 
 	@Column(name = "credit_margin")
-	private double creditMargin;
+	@NotNull(message = "Specify the loan margin ,Can not be Empty")
+	private Double creditMargin;
 
 	@Column(name = "wibor")
-	private double wibor;
+	@NotNull(message = "Specify the WIBOR ,Can not be Empty")
+	private Double wibor;
 
 	@Column(name = "commision_fee")
-	private int commisionFee;
+	@NotNull(message = "Specify the WIBOR ,Can not be Empty")
+	private Integer commisionFee;
 
 	public Credit() {
 		super();
 	}
 
-	public Credit(String mortgageName, int mortgageDebt, int mortgageTerm, double creditMargin, double wibor,
-			int commisionFee) {
+	public Credit(String mortgageName, Integer mortgageDebt, Integer mortgageTerm, Double creditMargin, Double wibor,
+			Integer commisionFee) {
 		super();
 		this.mortgageName = mortgageName;
 		this.mortgageDebt = mortgageDebt;
@@ -65,43 +71,43 @@ public class Credit {
 		this.mortgageName = mortgageName;
 	}
 
-	public int getMortgageDebt() {
+	public Integer getMortgageDebt() {
 		return mortgageDebt;
 	}
 
-	public void setMortgageDebt(int mortgageDebt) {
+	public void setMortgageDebt(Integer mortgageDebt) {
 		this.mortgageDebt = mortgageDebt;
 	}
 
-	public int getMortgageTerm() {
+	public Integer getMortgageTerm() {
 		return mortgageTerm;
 	}
 
-	public void setMortgageTerm(int mortgageTerm) {
+	public void setMortgageTerm(Integer mortgageTerm) {
 		this.mortgageTerm = mortgageTerm;
 	}
 
-	public double getCreditMargin() {
+	public Double getCreditMargin() {
 		return creditMargin;
 	}
 
-	public void setCreditMargin(double creditMargin) {
+	public void setCreditMargin(Double creditMargin) {
 		this.creditMargin = creditMargin;
 	}
 
-	public double getWibor() {
+	public Double getWibor() {
 		return wibor;
 	}
 
-	public void setWibor(double wibor) {
+	public void setWibor(Double wibor) {
 		this.wibor = wibor;
 	}
 
-	public int getCommisionFee() {
+	public Integer getCommisionFee() {
 		return commisionFee;
 	}
 
-	public void setCommisionFee(int commisionFee) {
+	public void setCommisionFee(Integer commisionFee) {
 		this.commisionFee = commisionFee;
 	}
 

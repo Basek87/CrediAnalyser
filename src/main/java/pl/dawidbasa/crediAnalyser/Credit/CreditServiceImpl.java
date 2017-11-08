@@ -21,11 +21,12 @@ public class CreditServiceImpl implements CreditService {
 	public void saveCredit(Credit credit) {
 		creditRepository.save(credit);
 	}
-
+	
 	// Get list of all credits from database
 	public List<Credit> findAll() {
 		return creditRepository.findAll();
 	}
+	
 	// Get single credit by name
 	public Credit findByMortgageName(String mortgageName) {
 		return creditRepository.findByMortgageName(mortgageName);
@@ -40,7 +41,7 @@ public class CreditServiceImpl implements CreditService {
 	public List<BigDecimal> calculateAllDecreasingInstalments(Credit credit) {
 		
 		// Mortgage term in months =  mortgage term * 12 
-		final int mortgageTermMonths = credit.getMortgageTerm() * 12;
+		final Integer mortgageTermMonths = credit.getMortgageTerm() * 12;
 		
 		// Monthly intrest rate = (WIBOR + Credit margin) / 1200   
 		// (12)*(100) 12 - months, 100 - conversion to percentages.  
@@ -100,7 +101,6 @@ public class CreditServiceImpl implements CreditService {
 				.reduce(BigDecimal.ZERO, BigDecimal::add)
 				.setScale(2, RoundingMode.HALF_UP));
 		
-		
 		// Calculate average from double method.
 		map.put("decrasingInstalmentAverage", BigDecimal.valueOf(lista.stream()
 				.mapToDouble(BigDecimal::doubleValue)
@@ -129,7 +129,7 @@ public class CreditServiceImpl implements CreditService {
 
 		Map<String, BigDecimal> map = new HashMap<>();
 		// Mortgage term in months =  mortgage term * 12 
-		final int mortgageTermMonths = credit.getMortgageTerm() * 12;
+		final Integer mortgageTermMonths = credit.getMortgageTerm() * 12;
 		
 		// Monthly intrest rate = (WIBOR + Credit margin) / 1200   
 		// (12)*(100) 12 - months, 100 - conversion to percentages.  
@@ -159,6 +159,7 @@ public class CreditServiceImpl implements CreditService {
 		
 		map.put("constantInstalment", instalment.setScale(2,RoundingMode.HALF_EVEN));
 		map.put("constantInstalmentTotalCost", totalCost.setScale(2, RoundingMode.HALF_EVEN));
+		
 		return map;
 	}
 }
