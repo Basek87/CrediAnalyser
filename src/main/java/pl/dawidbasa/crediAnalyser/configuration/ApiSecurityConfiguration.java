@@ -29,6 +29,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Value("${spring.queries.roles-query}")
 	private String rolesQuery;
 
+	// Users, roles queries stored in resources/application.properties. 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
 				.dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);
@@ -39,33 +40,24 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/")
 		.permitAll()
-		.antMatchers("/login")
-		.permitAll()
-		.antMatchers("/registration")
-		.permitAll()
-		.antMatchers("/admin/**")
-		.hasAuthority("ADMIN")
-		.anyRequest()
-		.authenticated()
+		.antMatchers("/login").permitAll()
+		.antMatchers("/registration/**").permitAll()
+		.antMatchers("/admin/**").hasAuthority("ADMIN")
+		.anyRequest().authenticated()
 		.and()
-		.csrf()
-		.disable()
-		.formLogin()
-		.loginPage("/login")
+		.csrf().disable()
+		.formLogin().loginPage("/login")
 		.failureUrl("/login?error=true")
 		.defaultSuccessUrl("/admin/home")
 		.usernameParameter("email")
 		.passwordParameter("password")
 		.and()
-		.logout()
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		.logoutSuccessUrl("/").and()
-		.exceptionHandling()
-		.accessDeniedPage("/access-denied");
+		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/");
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		/*web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");*/
+		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
 	}
 }
