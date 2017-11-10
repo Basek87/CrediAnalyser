@@ -23,7 +23,7 @@ public class CreditServiceImpl implements CreditService {
 	}
 	
 	// Get list of all credits from database
-	public List<Credit> findAll() {
+	public List<Credit> findAllCredits() {
 		return creditRepository.findAll();
 	}
 	
@@ -145,8 +145,8 @@ public class CreditServiceImpl implements CreditService {
 		
 		// General formula of constant instalments
 		//                                         (q - 1)
-		// instalment = qn * total Credit Value * --------- 
-		//                                         (qn - 1)
+		// instalment = q^n * total Credit Value * --------- 
+		//                                         (q^n - 1)
 		final BigDecimal instalment = qn
 				.multiply(BigDecimal.valueOf(credit.getMortgageDebt())
 						.add(BigDecimal.valueOf(credit.getCommisionFee())))
