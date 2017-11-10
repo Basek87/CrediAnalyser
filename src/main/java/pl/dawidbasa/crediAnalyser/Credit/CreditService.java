@@ -8,7 +8,7 @@ public interface CreditService {
 
 	Credit findByMortgageName(String mortgageName);
 	public void saveCredit(Credit credit);
-	List<Credit> findAll();
+	List<Credit> findAllCredits();
 	public List<Credit> sortCreditsByCreditMargin(List<Credit> credits);
 	public List<BigDecimal> calculateAllDecreasingInstalments(Credit credit);
 	public Map<String, BigDecimal> calculateDecrasingInstalmentDetails(Credit credit);
