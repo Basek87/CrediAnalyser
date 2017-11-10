@@ -21,23 +21,23 @@ public class Credit {
 	private String mortgageName;
 
 	@Column(name = "mortgage_debt")
-	@NotNull(message = "Specify the loan amount ,Can not be Empty")
+	@NotNull(message = "*Specify the loan amount ,Can not be Empty")
 	private Integer mortgageDebt;
 
 	@Column(name = "mortgage_term")
-	@NotNull(message = "Specify the loan term ,Can not be Empty")
+	@NotNull(message = "*Specify the loan term ,Can not be Empty")
 	private Integer mortgageTerm;
 
 	@Column(name = "credit_margin")
-	@NotNull(message = "Specify the loan margin ,Can not be Empty")
+	@NotNull(message = "*Specify the loan margin ,Can not be Empty")
 	private Double creditMargin;
 
 	@Column(name = "wibor")
-	@NotNull(message = "Specify the WIBOR ,Can not be Empty")
+	@NotNull(message = "*Specify the WIBOR ,Can not be Empty")
 	private Double wibor;
 
 	@Column(name = "commision_fee")
-	@NotNull(message = "Specify the WIBOR ,Can not be Empty")
+	@NotNull(message = "*Specify the WIBOR ,Can not be Empty")
 	private Integer commisionFee;
 
 	public Credit() {
