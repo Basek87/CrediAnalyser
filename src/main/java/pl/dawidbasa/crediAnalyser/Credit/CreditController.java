@@ -20,39 +20,45 @@ public class CreditController {
 	private CreditService creditService;
 
 	@RequestMapping(value = "/admin/creditcalculator", method = RequestMethod.GET)
-	public String showCalculatorPage(Model model) {
-		List<Credit> credits = creditService.findAll();
+	public String showCreditListPage(Model model) {
+		List<Credit> credits = creditService.findAllCredits();
 		Credit credit = new Credit();
 		model.addAttribute("credit", credit);
 		model.addAttribute("credits", creditService.sortCreditsByCreditMargin(credits));
+		
 		return "/admin/calculator";
 	}
 
-	@RequestMapping(value = "/admin/creditcalculator", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/creditcalculator/addCredit", method = RequestMethod.POST)
 	public String createNewCredit(@Valid @ModelAttribute Credit credit, BindingResult bindingResult, Model model) {
 
 		Credit creditExist = creditService.findByMortgageName(credit.getMortgageName());
-		List<Credit> credits = creditService.findAll();
+		
+		
+		// Existing credits with same name are rejected.
 		if (creditExist != null) {
 			bindingResult.rejectValue("mortgageName", "error.mortgageName",
 					"*There is already registered mortgage with the same Name");
 		}
-
+		// Validation error more info about restrictions in Credit.java
 		if (bindingResult.hasErrors()) {
+			List<Credit> credits = creditService.findAllCredits();
 			model.addAttribute("credits", creditService.sortCreditsByCreditMargin(credits));
+			
 			return "/admin/calculator";
-
+		// Everything is ok save credit.	
 		} else {
 			creditService.saveCredit(credit);
 			model.addAttribute("successMessage", "Credit has been registered successfully");
+			List<Credit> credits = creditService.findAllCredits();
 			model.addAttribute("credits", creditService.sortCreditsByCreditMargin(credits));
+			
 			return "/admin/calculator";
 		}
-
 	}
 
 	@RequestMapping(value = "/admin/creditcalculator/{mortgageName}", method = RequestMethod.GET)
-	public String calculateInstalment(@PathVariable("mortgageName") String mortgageName, Model model) {
+	public String ShowInstalmentsDetailsPage(@PathVariable("mortgageName") String mortgageName, Model model) {
 
 		Credit credit = creditService.findByMortgageName(mortgageName);
 		model.addAllAttributes(creditService.calculateConstantInstalmentDetails(credit));
