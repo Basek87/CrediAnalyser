@@ -70,6 +70,11 @@
 			<version>1.9.21</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
+		<!-- // Spring Security Test -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+		</dependency>
 	</dependencies>
 
 
