@@ -29,7 +29,7 @@ import pl.dawidbasa.crediAnalyser.Credit.CreditRepository;
 import pl.dawidbasa.crediAnalyser.User.MyUserDetailsService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = { Application.class, SecurityTestConfiguration.class })
+@SpringBootTest(classes = {Application.class, SecurityTestConfiguration.class})
 /*
  * @TestPropertySource(locations = "classpath:application-test.properties")
  * 
@@ -43,7 +43,9 @@ public class CreditControllerTest {
 
 	@Autowired
 	WebApplicationContext context;
+	@Autowired
 	DataSource datasource;
+	@Autowired
 	MyUserDetailsService userDetailsService;
 
 	@MockBean
@@ -51,7 +53,8 @@ public class CreditControllerTest {
 
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(context)
+				.apply(springSecurity()).build();
 
 		credit = new Credit();
 		credit.setId(1);
@@ -67,30 +70,38 @@ public class CreditControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testShowCalculatorPage() throws Exception {
-		mockMvc.perform(get("/admin/creditcalculator")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("credit")).andExpect(model().attributeExists("credits"))
+		mockMvc.perform(get("/admin/creditcalculator"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("credit"))
+				.andExpect(model().attributeExists("credits"))
 				.andExpect(view().name("/admin/calculator"));
 	}
 
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testProcessCreationCreditSuccess() throws Exception {
-		mockMvc.perform(post("/admin/creditcalculator/addCredit").param("mortgageName", "PKO")
-				.param("mortgageDebt", "100000").param("mortgageTerm", "30").param("creditMargin", "3")
-				.param("wibor", "2").param("commisionFee", "5000")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("successMessage")).andExpect(model().attributeExists("credits"))
+		mockMvc.perform(post("/admin/creditcalculator/addCredit")
+				.param("mortgageName", "PKO").param("mortgageDebt", "100000")
+				.param("mortgageTerm", "30").param("creditMargin", "3")
+				.param("wibor", "2").param("commisionFee", "5000"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("successMessage"))
+				.andExpect(model().attributeExists("credits"))
 				.andExpect(view().name("/admin/calculator"));
 	}
 
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/admin/creditcalculator/addCredit").param("mortgageName", "PKO")
-				.param("mortgageDebt", "100000").param("mortgageTerm", "30")).andExpect(status().isOk())
+		mockMvc.perform(post("/admin/creditcalculator/addCredit")
+				.param("mortgageName", "PKO")
+				.param("mortgageDebt", "100000")
+				.param("mortgageTerm", "30"))
+				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("credit"))
-				.andExpect(model().attributeHasFieldErrors("credit", "creditMargin"))
+				.andExpect(model().attributeHasFieldErrors("credit","creditMargin"))
 				.andExpect(model().attributeHasFieldErrors("credit", "wibor"))
-				.andExpect(model().attributeHasFieldErrors("credit", "commisionFee"))
+				.andExpect(model().attributeHasFieldErrors("credit","commisionFee"))
 				.andExpect(view().name("/admin/calculator"));
 	}
 
@@ -98,17 +109,17 @@ public class CreditControllerTest {
 	@WithMockUser(roles = "ADMIN")
 	public void testProcessFindFormByMortgageName() throws Exception {
 
-		mockMvc.perform(get("/admin/creditcalculator/{mortgageName}", credit.getMortgageName()))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("decrasingInstalmentTotalCost"))
-		.andExpect(model().attributeExists("decrasingInstalmentAverage"))
-		.andExpect(model().attributeExists("decrasingInstalmentMin"))
-		.andExpect(model().attributeExists("decrasingInstalmentMax"))
-		.andExpect(model().attributeExists("calculateAllDecreasingInstalment"))
-		.andExpect(model().attributeExists("constantInstalment"))
-		.andExpect(model().attributeExists("constantInstalmentTotalCost"))
-		
-		.andExpect(view().name("/admin/instalment"));
+		mockMvc.perform(get("/admin/creditcalculator/{mortgageName}",
+				credit.getMortgageName()))
+				.andExpect(status().isOk())
+				.andExpect(	model().attributeExists("decrasingInstalmentTotalCost"))
+				.andExpect(model().attributeExists("decrasingInstalmentAverage"))
+				.andExpect(model().attributeExists("decrasingInstalmentMin"))
+				.andExpect(model().attributeExists("decrasingInstalmentMax"))
+				.andExpect(model().attributeExists("calculateAllDecreasingInstalment"))
+				.andExpect(model().attributeExists("constantInstalment"))
+				.andExpect(model().attributeExists("constantInstalmentTotalCost"))
+				.andExpect(view().name("/admin/instalment"));
 	}
 
 }
