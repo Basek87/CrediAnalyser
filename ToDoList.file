@@ -1,28 +1,25 @@
 @ - do zrobienia.
 v - wykonane.
 #########################################################################################
-Lista zadań na przyszłość:
+Aktaliacja 12.12.2017
 -----------------------------------------------------------------------------------------
-1.Ukończenie projektu do 19.11.2017.
-2.Testy integracyjne, jednostkowe(przynajmniej w podstawowym zakresie).
-3.Obsługa wywalanych błedów poprzez osobny widok generujacy szczegóły.
-4.Zarządzanie ciasteczkami , generacja tokena ?
-5.Wyswietlanie w szczegółach częśći kapitałowej, odsetek dla obu typów rat.
-6.Przy wymuszeniu dodania kredytu poprzez URL generuje się NullException - Zapobiec.
+1. v Testy
+2. v Obsługa wywalanych błedów poprzez osobny widok generujacy szczegóły.
+3. v Zarządzanie ciasteczkami , generacja tokena ?
+5. @ Przy wymuszeniu dodania kredytu poprzez URL generuje się NullException - Zapobiec.
 -----------------------------------------------------------------------------------------
 #########################################################################################
 -----------------------------------------------------------------------------------------
 #########################################################################################
 Lista zadań 6.11.2017 - 12.11.2017
 -----------------------------------------------------------------------------------------
-<<<<<<< HEAD
 1. v Poprawić validacje dodawania użytkowników , kredytów.								
 2. v Dodać przyciski z odwolaniami w panelu użytkownika home. 							
 3. v Poprawic ustawienia zabezpieczeń.													
 4. v Komenatrze w klasach controllerow , ustawien, serwisow.								
-5. @ Implementacja pierwszysch testów sprawdzających poprawność obliczeń kredytów.		
-6. @ Dodać pliki CSS do projektu , zmienić stare odwolania.								
-7. @ Refactor kodu - poprawa wyglądu , działania	
+5. vImplementacja pierwszysch testów sprawdzających poprawność obliczeń kredytów.		
+6. v Dodać pliki CSS do projektu , zmienić stare odwolania.								
+7. v Refactor kodu - poprawa wyglądu , działania	
 8. v Poprawić bład przekierowania po logowaniu.				
 9. v Dodać globalny separator zamienający , na . 						
 -----------------------------------------------------------------------------------------
