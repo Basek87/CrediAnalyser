@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 @ControllerAdvice
 public class GlobalBindingInitializer {
 
-	// Global separator. Decimals are forbidden for BigDecimal this class prevents exeption.
+	// Global separator. Decimals are forbidden for BigDecimal this class prevents exceptions.
 	@InitBinder
 	public void initBigDecimalBinder(WebDataBinder binder) throws Exception {
 		DecimalFormat df = new DecimalFormat();
