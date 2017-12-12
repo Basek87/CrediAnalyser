@@ -21,27 +21,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	/*@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;*/
-
-	@Autowired
-	private DataSource dataSource;
-
-	/*@Value("${spring.queries.users-query}")
-	private String usersQuery;
-
-	@Value("${spring.queries.roles-query}")
-	private String rolesQuery;
-*/
 	@Autowired
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
-
-	// Users, roles queries stored in resources/application.properties. 
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
-//				.dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);		
-//	}
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
