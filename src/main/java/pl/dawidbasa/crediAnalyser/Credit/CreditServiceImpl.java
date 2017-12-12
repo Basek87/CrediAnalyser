@@ -66,17 +66,17 @@ public class CreditServiceImpl implements CreditService {
 			// Precision of 4 decimal places, round up.
 			BigDecimal interestElement = capitalElement
 					.subtract(repaidedCapitalElement)
-					.multiply(monthlyIntrest).setScale(4, RoundingMode.HALF_UP);
+					.multiply(monthlyIntrest).setScale(4, RoundingMode.HALF_EVEN);
 			
 			// Calculate single instalment 
 			// installment = (Capital element / Number of instalments) + intrest element
 			BigDecimal installment = capitalElement
-					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_UP)
+					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_EVEN)
 					.add(interestElement);
 			
 			// Currently paid capital in every iteration add vale to pocket.
 			repaidedCapitalElement = capitalElement
-					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_UP)
+					.divide(BigDecimal.valueOf(mortgageTermMonths),4,RoundingMode.HALF_EVEN)
 					.add(repaidedCapitalElement);
 			
 			// Add installment to List
