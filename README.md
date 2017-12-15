@@ -10,9 +10,13 @@ Core Tech:
 
 Java Based Application with Login authentication.
 Main Feature is calculating mortgages and Istalments and show details of loan.
-Atm. its Aplha version need to add some features , refactor and tests.
 
-Before first run You must add Role using this script:
-INSERT INTO `role` VALUES (1,'ADMIN');
-then register new user on Login Page, login.
+Application should load custom data from sql file.
+
+Login Data:
+login: test@test.pl
+password: test1
+
+Also You can add your user in Registration Form.
+
 
