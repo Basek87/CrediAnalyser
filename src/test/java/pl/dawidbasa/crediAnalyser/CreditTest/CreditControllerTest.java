@@ -23,21 +23,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.dawidbasa.crediAnalyser.Application;
-import pl.dawidbasa.crediAnalyser.Configuration.SecurityTestConfiguration;
 import pl.dawidbasa.crediAnalyser.Credit.Credit;
 import pl.dawidbasa.crediAnalyser.Credit.CreditRepository;
 import pl.dawidbasa.crediAnalyser.User.MyUserDetailsService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {Application.class, SecurityTestConfiguration.class})
-/*
- * @TestPropertySource(locations = "classpath:application-test.properties")
- * 
- * @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts =
- * "classpath:/insert-test-data.sql")
- */
+@SpringBootTest(classes = {Application.class})
 public class CreditControllerTest {
-
+	
 	private MockMvc mockMvc;
 	private Credit credit;
 
@@ -108,7 +101,6 @@ public class CreditControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	public void testProcessFindFormByMortgageName() throws Exception {
-
 		mockMvc.perform(get("/admin/creditcalculator/{mortgageName}",
 				credit.getMortgageName()))
 				.andExpect(status().isOk())
@@ -121,5 +113,4 @@ public class CreditControllerTest {
 				.andExpect(model().attributeExists("constantInstalmentTotalCost"))
 				.andExpect(view().name("/admin/instalment"));
 	}
-
 }
