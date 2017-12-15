@@ -2,10 +2,8 @@ package pl.dawidbasa.crediAnalyser.CreditTest;
 
 
 
-import static org.assertj.core.api.Assertions.allOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,7 +13,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.hamcrest.collection.IsMapContaining;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +21,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.dawidbasa.crediAnalyser.Application;
@@ -44,8 +40,6 @@ public class CreditServiceImplTest {
 	@Autowired
 	CreditService credits;
 
-	private MockMvc mvc;
-	
 	@Test
 	public void shouldFindCreditByMortgageName(){
 		Credit credit = this.credits.findByMortgageName("PKO");
@@ -82,7 +76,6 @@ public class CreditServiceImplTest {
 	
 	}
 	
-	
 	//ComissionFee 5000
 	//CreditMargin 3
 	//MortgageDebt 300000
@@ -93,9 +86,9 @@ public class CreditServiceImplTest {
 		Credit credit = this.credits.findByMortgageName("PKO");
 		List<BigDecimal> decrasingInstalments = this.credits.calculateAllDecreasingInstalments(credit);
 		assertThat(decrasingInstalments.size()).isEqualTo(360);
-		// Test First Instalment
+		// Test First Installment
 		assertThat(decrasingInstalments.get(0).setScale(2, RoundingMode.HALF_EVEN)).isEqualTo("2118.06");
-		// Test Last Instalment
+		// Test Last Installment
 		assertThat(decrasingInstalments.get(359).setScale(2, RoundingMode.HALF_EVEN)).isEqualTo("850.75");
 	}
 	
@@ -126,6 +119,4 @@ public class CreditServiceImplTest {
 		assertThat(map).contains(entry
 				("constantInstalmentTotalCost",BigDecimal.valueOf(589430.17).setScale(2)));
 	}
-	
-	
 }
