@@ -9,7 +9,7 @@ Core Tech:
 5. Thymeleaf frontend
 
 Java Based Application with Login authentication.
-Main Feature is calculating mortgages and Istalments and show details of loan.
+Main Feature is calculating mortgages and show details of loan.
 
 Application should load custom data from sql file.
 
