@@ -28,23 +28,16 @@ public class MyUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 		pl.dawidbasa.crediAnalyser.User.User user = userRepository.findByEmail(email);
-		
-				List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
-
+		List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
 		
 		return buildUserForAuthentication(user, authorities);
-
 	}
 	
-	// Converts com.mkyong.users.model.User user to
-	// org.springframework.security.core.userdetails.User
-	private UserDetails buildUserForAuthentication(pl.dawidbasa.crediAnalyser.User.User user,
-			List<GrantedAuthority> authorities) {
+	private UserDetails buildUserForAuthentication(pl.dawidbasa.crediAnalyser.User.User user,List<GrantedAuthority> authorities) {
 		
-		return new User(user.getEmail(), user.getPassword(),
-				true, true, true, true, authorities);
+		return new User(user.getEmail(), user.getPassword(),true, true, true, true, authorities);
 	}
-
+	
 	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
 		
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
