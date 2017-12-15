@@ -6,7 +6,7 @@ Aktaliacja 12.12.2017
 1. v Testy
 2. v Obsługa wywalanych błedów poprzez osobny widok generujacy szczegóły.
 3. v Zarządzanie ciasteczkami , generacja tokena ?
-5. @ Przy wymuszeniu dodania kredytu poprzez URL generuje się NullException - Zapobiec.
+5. v Przy wymuszeniu dodania kredytu poprzez URL generuje się NullException - Zapobiec.
 -----------------------------------------------------------------------------------------
 #########################################################################################
 -----------------------------------------------------------------------------------------
