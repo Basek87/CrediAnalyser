@@ -1,29 +1,32 @@
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymleaf.org">
 <head>
-       <title>Page Error</title>
-    <style>
-        body {  background-color: #2a2627;  margin:20px;}
-        h1,h3, p { color: #ffffff; }
-    </style>
+<title>Page Error</title>
+<style>
+body {
+	background-color: #2a2627;
+	margin: 20px;
+}
+
+h1, h3, p {
+	color: #ffffff;
+}
+</style>
 </head>
 <body>
- <div>
-    <h1>Sorry</h1>
-    
-    <h3>Looks like something went wrong on our end.</h3>
-    <h3>Reload page or back to home page</h3>    
- 	<br><br>
-    <h3>Error info</h3>    
-    <p th:utext="${exception}"></p>
-    <p th:utext="${url}"></p>
-</div> 
+	<div>
+		<h1>Sorry</h1>
 
-
-<div class="panel-body text-center">
-			 <a th:href="'/'">Back to Login Page</a>
-</div>
+		<h3>Looks like something went wrong on our end.</h3>
+		<h3>Reload page or back to home page</h3>
+		<br><br>
+		<h3>Error info</h3>
+		<p th:utext="${exception}"></p>
+		<p th:utext="${url}"></p>
+	</div>
+	<div class="panel-body text-center">
+		<a th:href="'/'">Back to Login Page</a>
+	</div>
 
 </body>
 </html>

@@ -16,7 +16,7 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
 	public String login() {
 		return "login";
@@ -24,8 +24,10 @@ public class LoginController {
 
 	@RequestMapping(value = "/admin/home", method = RequestMethod.GET)
 	public String showHomePage(Model model) {
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		
 		model.addAttribute("userName","Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 		model.addAttribute("adminMessage", "Content Available Only for Users with Admin Role");
 		return "admin/home";
